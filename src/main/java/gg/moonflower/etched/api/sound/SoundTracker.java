@@ -8,6 +8,8 @@ import gg.moonflower.etched.common.block.AlbumJukeboxBlock;
 import gg.moonflower.etched.common.block.RadioBlock;
 import gg.moonflower.etched.common.blockentity.AlbumJukeboxBlockEntity;
 import gg.moonflower.etched.core.Etched;
+import gg.moonflower.etched.core.mixin.LevelRendererAccessor;
+import gg.moonflower.etched.core.mixin.client.GuiAccessor;
 import gg.moonflower.etched.core.registry.EtchedTags;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -148,7 +150,7 @@ public class SoundTracker {
         boolean muffled = aboveState.is(BlockTags.WOOL);
         boolean hidden = !aboveState.isAir();
 
-        Map<BlockPos, SoundInstance> playingRecords = Minecraft.getInstance().levelRenderer.playingRecords;
+        Map<BlockPos, SoundInstance> playingRecords = ((LevelRendererAccessor)Minecraft.getInstance().levelRenderer).getPlayingRecords();
         return new OnlineRecordSoundInstance(url, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, muffled ? 2.0F : 4.0F, muffled ? attenuationDistance / 2 : attenuationDistance, new MusicDownloadListener(title, () -> pos.getX() + 0.5, () -> pos.getY() + 0.5, () -> pos.getZ() + 0.5) {
             @Override
             public void onSuccess() {
@@ -176,7 +178,7 @@ public class SoundTracker {
 
     private static void playRecord(BlockPos pos, SoundInstance sound) {
         SoundManager soundManager = Minecraft.getInstance().getSoundManager();
-        Map<BlockPos, SoundInstance> playingRecords = Minecraft.getInstance().levelRenderer.playingRecords;
+        Map<BlockPos, SoundInstance> playingRecords =((LevelRendererAccessor)Minecraft.getInstance().levelRenderer).getPlayingRecords();
         playingRecords.put(pos, sound);
         soundManager.play(sound);
     }
@@ -209,7 +211,7 @@ public class SoundTracker {
             return;
         }
         playRecord(pos, StopListeningSound.create(getEtchedRecord(url, trackData.getDisplayName(), level, pos, AudioSource.AudioFileType.FILE), () -> Minecraft.getInstance().tell(() -> {
-            if (!(Minecraft.getInstance().levelRenderer.playingRecords.containsKey(pos))) {
+            if (!(((LevelRendererAccessor)Minecraft.getInstance().levelRenderer).getPlayingRecords().containsKey(pos))) {
                 return;
             }
             playBlockRecord(pos, tracks, track + 1);
@@ -288,7 +290,7 @@ public class SoundTracker {
      */
     public static void playRadio(@Nullable String url, BlockState state, ClientLevel level, BlockPos pos) {
         SoundManager soundManager = Minecraft.getInstance().getSoundManager();
-        Map<BlockPos, SoundInstance> playingRecords = Minecraft.getInstance().levelRenderer.playingRecords;
+        Map<BlockPos, SoundInstance> playingRecords = ((LevelRendererAccessor)Minecraft.getInstance().levelRenderer).getPlayingRecords();
 
         SoundInstance soundInstance = playingRecords.get(pos);
         if (soundInstance != null) {
@@ -324,7 +326,7 @@ public class SoundTracker {
      */
     public static void playAlbum(AlbumJukeboxBlockEntity jukebox, BlockState state, ClientLevel level, BlockPos pos, boolean force) {
         SoundManager soundManager = Minecraft.getInstance().getSoundManager();
-        Map<BlockPos, SoundInstance> playingRecords = Minecraft.getInstance().levelRenderer.playingRecords;
+        Map<BlockPos, SoundInstance> playingRecords = ((LevelRendererAccessor)Minecraft.getInstance().levelRenderer).getPlayingRecords();
 
         if (!state.hasProperty(AlbumJukeboxBlock.POWERED) || !state.getValue(AlbumJukeboxBlock.POWERED) && !force && !jukebox.recalculatePlayingIndex(false)) {// Something must already be playing since it would otherwise be -1 and a change would occur
             return;
@@ -473,14 +475,14 @@ public class SoundTracker {
             if (this.component == null) {
                 this.component = new DownloadTextComponent();
                 Minecraft.getInstance().gui.setOverlayMessage(this.component, true);
-                Minecraft.getInstance().gui.overlayMessageTime = Short.MAX_VALUE;
+                ((GuiAccessor)Minecraft.getInstance().gui).setOverlayMessageTime(Short.MAX_VALUE);
             }
             this.component.setText(text.getString());
         }
 
         protected void clearComponent() {
             if (Minecraft.getInstance().gui.overlayMessageString == this.component) {
-                Minecraft.getInstance().gui.overlayMessageTime = 60;
+                ((GuiAccessor)Minecraft.getInstance().gui).setOverlayMessageTime(60);
                 this.component = null;
             }
         }

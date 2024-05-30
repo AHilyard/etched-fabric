@@ -9,6 +9,7 @@ import gg.moonflower.etched.client.screen.EtchingScreen;
 import gg.moonflower.etched.client.screen.RadioScreen;
 import gg.moonflower.etched.common.blockentity.AlbumJukeboxBlockEntity;
 import gg.moonflower.etched.common.network.play.*;
+import gg.moonflower.etched.core.mixin.LevelRendererAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -39,7 +40,7 @@ public class EtchedClientPlayPacketHandler {
             }
             client.execute(()->{
                 BlockPos pos = pkt.pos();
-                Map<BlockPos, SoundInstance> playingRecords = client.levelRenderer.playingRecords;
+                Map<BlockPos, SoundInstance> playingRecords = ((LevelRendererAccessor)client.levelRenderer).getPlayingRecords();
                 SoundInstance soundInstance = playingRecords.get(pos);
 
                 if (soundInstance != null) {
