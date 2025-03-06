@@ -53,9 +53,6 @@
 		}
 	],
 	"gui_light": "front",
-	"overrides": [
-		{"predicate": {"etched:playing": 1}, "model": "etched:item/boombox_playing"}
-	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [67.5, 91.5, 0],
