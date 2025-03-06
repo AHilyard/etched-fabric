@@ -48,6 +48,8 @@ public class SoundCloudSource implements SoundDownloadSource {
 
         try {
             URL uRL = requiresId ? appendUri(url, "client_id=" + SoundCloudIdTracker.fetch(proxy)) : new URL(url);
+			LOGGER.info("URL: " + uRL);
+			
             httpURLConnection = (HttpURLConnection) uRL.openConnection(proxy);
             httpURLConnection.setInstanceFollowRedirects(true);
             Map<String, String> map = SoundDownloadSource.getDownloadHeaders();
@@ -109,9 +111,18 @@ public class SoundCloudSource implements SoundDownloadSource {
 
                 JsonObject format = transcodingJson.getAsJsonObject("format");
                 String protocol = format.get("protocol").getAsString();
+				String mimeType = format.get("mime_type").getAsString().toLowerCase();
+
+				// Skip unsupported MP4 and MP4A formats.
+				if (mimeType.contains("audio/mp4") || mimeType.contains("audio/mpegurl"))
+				{
+					continue;
+				}
+
                 if ("progressive".equals(protocol)) {
                     progressiveIndex = i;
                 }
+
                 if ("hls".equals(protocol)) {
                     try (InputStreamReader urlReader = new InputStreamReader(this.get(GsonHelper.getAsString(transcodingJson, "url"), null, proxy, 0, true))) {
                         try (InputStreamReader reader = new InputStreamReader(this.get(GsonHelper.getAsString(JsonParser.parseReader(urlReader).getAsJsonObject(), "url"), null, proxy, 0, false))) {

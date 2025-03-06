@@ -8,6 +8,7 @@ import gg.moonflower.etched.api.sound.stream.RawAudioStream;
 import gg.moonflower.etched.api.util.DownloadProgressListener;
 import gg.moonflower.etched.api.util.Mp3InputStream;
 import gg.moonflower.etched.api.util.WaveDataReader;
+import gg.moonflower.etched.api.util.AAC.AACInputStream;
 import gg.moonflower.etched.client.sound.EmptyAudioStream;
 import gg.moonflower.etched.client.sound.SoundCache;
 import gg.moonflower.etched.core.Etched;
@@ -30,10 +31,14 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.SequenceInputStream;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.function.Supplier;
 
 /**
  * @author Ocelot
@@ -107,43 +112,76 @@ public class AbstractOnlineSoundInstance extends AbstractSoundInstance {
             try {
                 InputStream is = new BufferedInputStream(stream);
 
+				final int headerSize = 32 * 1024;
+				ByteArrayOutputStream headerBuffer = new ByteArrayOutputStream(headerSize);
+				byte[] temp = new byte[4096];
+				int totalRead = 0;
+				while (totalRead < headerSize) {
+					int bytesRead = is.read(temp);
+					if (bytesRead == -1) break;
+					headerBuffer.write(temp, 0, bytesRead);
+					totalRead += bytesRead;
+				}
+				byte[] headerBytes = headerBuffer.toByteArray();
+
+				Supplier<InputStream> createCombinedStream = () -> {
+					// Create a new ByteArrayInputStream for the header bytes
+					ByteArrayInputStream headerStream = new ByteArrayInputStream(headerBytes);
+					// Combine with the remainder of the original stream
+					return new SequenceInputStream(headerStream, is);
+				};
+
                 // Try loading as OGG
                 try {
-                    is.mark(4192);
-                    return getStream(repeatInstantly ? new LoopingAudioStream(OggAudioStream::new, is) : new OggAudioStream(is), sound);
+                    InputStream combinedStream = createCombinedStream.get();
+                    return getStream(repeatInstantly ? new LoopingAudioStream(OggAudioStream::new, combinedStream) : new OggAudioStream(combinedStream), sound);
                 } catch (Exception e) {
                     LOGGER.debug("Failed to load as OGG", e);
-                    is.reset();
 
                     // Try loading as WAV
                     try {
-                        is.mark(4192);
-                        AudioInputStream ais = WaveDataReader.getAudioInputStream(is);
+                        InputStream combinedStream = createCombinedStream.get();
+                        AudioInputStream ais = WaveDataReader.getAudioInputStream(combinedStream);
                         AudioFormat format = ais.getFormat();
                         return getStream(repeatInstantly ? new LoopingAudioStream(input -> new RawAudioStream(format, input), ais) : new RawAudioStream(format, ais), sound);
                     } catch (Exception e1) {
                         LOGGER.debug("Failed to load as WAV", e1);
-                        is.reset();
 
                         // Try loading as MP3
                         try {
-                            Mp3InputStream mp3InputStream = new Mp3InputStream(is);
+							InputStream combinedStream = createCombinedStream.get();
+                            Mp3InputStream mp3InputStream = new Mp3InputStream(combinedStream);
                             return getStream(repeatInstantly ? new LoopingAudioStream(input -> new RawAudioStream(mp3InputStream.getFormat(), input), mp3InputStream) : new RawAudioStream(mp3InputStream.getFormat(), mp3InputStream), sound);
                         } catch (Exception e2) {
                             LOGGER.debug("Failed to load as MP3", e2);
-                            UnsupportedAudioFileException cause = new UnsupportedAudioFileException("Could not load as OGG, WAV, OR MP3");
 
-                            try {
-                                is.close();
-                            } catch (Exception e3) {
-                                // Pass the exception along
-                                cause.addSuppressed(e3);
-                            }
+							// Try loading as AAC
+							try {
+								InputStream combinedStream = createCombinedStream.get();
+								AACInputStream aacInputStream = new AACInputStream(combinedStream);
+								AudioFormat format = aacInputStream.getFormat();
+								return getStream(repeatInstantly
+									? new LoopingAudioStream(input -> new RawAudioStream(format, input), aacInputStream)
+									: new RawAudioStream(format, aacInputStream),
+								sound);
+							} catch (Exception e3) {
+								LOGGER.debug("Failed to load as AAC", e3);
 
-                            cause.addSuppressed(e);
-                            cause.addSuppressed(e1);
-                            cause.addSuppressed(e2);
-                            throw new CompletionException(cause);
+								UnsupportedAudioFileException cause = new UnsupportedAudioFileException("Could not load as OGG, WAV, MP3, or AAC");
+
+								cause.addSuppressed(e);
+								cause.addSuppressed(e1);
+								cause.addSuppressed(e2);
+								cause.addSuppressed(e3);
+
+								try {
+									is.close();
+								} catch (Exception e4) {
+									// Pass the exception along
+									cause.addSuppressed(e4);
+								}
+								throw new CompletionException(cause);
+							}
                         }
                     }
                 }
