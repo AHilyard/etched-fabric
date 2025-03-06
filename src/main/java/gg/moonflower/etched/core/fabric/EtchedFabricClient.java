@@ -1,17 +1,15 @@
 package gg.moonflower.etched.core.fabric;
 
+import gg.moonflower.etched.common.item.EtchedMusicDiscItem;
 import gg.moonflower.etched.common.network.EtchedMessages;
-import gg.moonflower.etched.core.Etched;
 import net.fabricmc.api.ClientModInitializer;
 
 //import gg.moonflower.etched.common.entity.MinecartJukebox;
 import gg.moonflower.etched.core.EtchedClient;
 import net.fabricmc.fabric.api.event.client.player.ClientPickBlockGatherCallback;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.fabricmc.fabric.mixin.object.builder.client.ModelPredicateProviderRegistryAccessor;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public class EtchedFabricClient implements ClientModInitializer {
@@ -25,8 +23,8 @@ public class EtchedFabricClient implements ClientModInitializer {
 
         ClientPickBlockGatherCallback.EVENT.register((player, result) -> {
             if (result.getType() == HitResult.Type.ENTITY && player.getAbilities().instabuild) {
-                Entity entity = ((EntityHitResult) result).getEntity();
                 //FIXME
+                //Entity entity = ((EntityHitResult) result).getEntity();
                 //if (entity instanceof MinecartJukebox minecart) {
                 //    return new ItemStack(minecart.getDropItem());
                 //}
@@ -34,5 +32,9 @@ public class EtchedFabricClient implements ClientModInitializer {
             return ItemStack.EMPTY;
         });
         EtchedClient.registerItemColors();
+
+		// Register the pattern property for music discs.
+		ModelPredicateProviderRegistryAccessor.callRegister(new ResourceLocation("etched", "pattern"), 
+			(itemStack, world, entity, seed) -> { return EtchedMusicDiscItem.getPattern(itemStack).ordinal() / 10.0f; });
     }
 }
