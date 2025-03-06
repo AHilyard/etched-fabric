@@ -45,7 +45,8 @@ public interface PlayableRecord {
      */
     @Environment(EnvType.CLIENT)
     static boolean canShowMessage(double x, double y, double z) {
-        LocalPlayer player = Minecraft.getInstance().player;
+        Minecraft minecraft = Minecraft.getInstance();
+		LocalPlayer player = minecraft.player;
         return player == null || player.distanceToSqr(x, y, z) <= 4096.0;
     }
 

@@ -1,9 +1,6 @@
 package gg.moonflower.etched.core;
 
 import gg.moonflower.etched.client.screen.*;
-import gg.moonflower.etched.common.entity.MinecartJukebox;
-import gg.moonflower.etched.common.menu.AlbumCoverMenu;
-import gg.moonflower.etched.common.menu.AlbumJukeboxMenu;
 import gg.moonflower.etched.core.registry.EtchedMenus;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,23 +11,15 @@ import net.minecraft.client.gui.screens.MenuScreens;
 
 import gg.moonflower.etched.client.render.EtchedModelLayers;
 import gg.moonflower.etched.client.render.JukeboxMinecartRenderer;
-import gg.moonflower.etched.client.render.item.AlbumCoverItemRenderer;
 import gg.moonflower.etched.common.item.BlankMusicDiscItem;
 import gg.moonflower.etched.common.item.ComplexMusicLabelItem;
 import gg.moonflower.etched.common.item.EtchedMusicDiscItem;
 import gg.moonflower.etched.common.item.MusicLabelItem;
-import gg.moonflower.etched.core.registry.EtchedBlocks;
 import gg.moonflower.etched.core.registry.EtchedEntities;
 import gg.moonflower.etched.core.registry.EtchedItems;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.MinecartModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 
 
 @Environment(EnvType.CLIENT)

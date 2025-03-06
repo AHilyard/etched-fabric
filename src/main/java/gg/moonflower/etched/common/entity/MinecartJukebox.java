@@ -2,7 +2,6 @@ package gg.moonflower.etched.common.entity;
 
 import gg.moonflower.etched.api.record.PlayableRecord;
 import gg.moonflower.etched.api.sound.SoundTracker;
-import gg.moonflower.etched.core.Etched;
 import gg.moonflower.etched.core.fabric.EtchedConfig;
 import gg.moonflower.etched.core.registry.EtchedEntities;
 import gg.moonflower.etched.core.registry.EtchedItems;

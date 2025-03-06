@@ -1,8 +1,5 @@
 package gg.moonflower.etched.core.registry;
 
-import com.google.common.collect.ImmutableSet;
-import com.tterrag.registrate.fabric.RegistryObject;
-import com.tterrag.registrate.util.entry.EntityEntry;
 import gg.moonflower.etched.common.entity.MinecartJukebox;
 import gg.moonflower.etched.core.Etched;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -16,11 +13,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Supplier;
 

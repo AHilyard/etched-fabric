@@ -2,45 +2,19 @@ package gg.moonflower.etched.core.registry;
 
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.nullness.NonNullConsumer;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import gg.moonflower.etched.common.block.AlbumJukeboxBlock;
 import gg.moonflower.etched.common.block.EtchingTableBlock;
 import gg.moonflower.etched.common.block.RadioBlock;
 import gg.moonflower.etched.common.blockentity.AlbumJukeboxBlockEntity;
 import gg.moonflower.etched.common.blockentity.RadioBlockEntity;
-import gg.moonflower.etched.common.item.PortalRadioItem;
 import gg.moonflower.etched.core.Etched;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType.EntityFactory;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.JukeboxBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import org.apache.commons.codec.language.bm.Lang;
-
+@SuppressWarnings("unchecked")
 public class EtchedBlocks {
 
     //public static final ResourceKey<Registry<Block>> BLOCK = ResourceKey.createRegistryKey(new ResourceLocation("etched_blocks"));
@@ -76,7 +50,7 @@ public class EtchedBlocks {
                     .register();
             EtchedItems.register("portal_radio", () -> new PortalRadioItem(RADIO.get(), new Item.Properties()));
 */
-    public static final BlockEntityEntry<AlbumJukeboxBlockEntity> ALBUM_JUKEBOX_BE =
+	public static final BlockEntityEntry<AlbumJukeboxBlockEntity> ALBUM_JUKEBOX_BE =
             (BlockEntityEntry<AlbumJukeboxBlockEntity>)(Object)Etched.REGISTRATE.blockEntity("album_jukebox", AlbumJukeboxBlockEntity::new)
                     .validBlocks(ALBUM_JUKEBOX)
                     .register();

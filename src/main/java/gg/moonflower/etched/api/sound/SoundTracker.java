@@ -46,6 +46,7 @@ import java.util.function.DoubleSupplier;
  * @author Ocelot
  * @since 2.0.0
  */
+@SuppressWarnings("resource")
 public class SoundTracker {
 
     private static final Int2ObjectArrayMap<SoundInstance> ENTITY_PLAYING_SOUNDS = new Int2ObjectArrayMap<>();
@@ -111,6 +112,7 @@ public class SoundTracker {
      */
     public static AbstractOnlineSoundInstance getEtchedRecord(String url, Component title, Entity entity, int attenuationDistance, boolean stream) {
         return new OnlineRecordSoundInstance(url, entity, attenuationDistance, new MusicDownloadListener(title, entity::getX, entity::getY, entity::getZ) {
+            @SuppressWarnings("resource")
             @Override
             public void onSuccess() {
                 if (!entity.isAlive() || !ENTITY_PLAYING_SOUNDS.containsKey(entity.getId())) {
@@ -122,6 +124,7 @@ public class SoundTracker {
                 }
             }
 
+            @SuppressWarnings("resource")
             @Override
             public void onFail() {
                 Minecraft.getInstance().gui.setOverlayMessage(Component.translatable("record." + Etched.MOD_ID + ".downloadFail", title), true);
@@ -145,7 +148,8 @@ public class SoundTracker {
      * @param type                The type of audio to accept
      * @return A new sound instance
      */
-    public static AbstractOnlineSoundInstance getEtchedRecord(String url, Component title, ClientLevel level, BlockPos pos, int attenuationDistance, AudioSource.AudioFileType type) {
+
+	public static AbstractOnlineSoundInstance getEtchedRecord(String url, Component title, ClientLevel level, BlockPos pos, int attenuationDistance, AudioSource.AudioFileType type) {
         BlockState aboveState = level.getBlockState(pos.above());
         boolean muffled = aboveState.is(BlockTags.WOOL);
         boolean hidden = !aboveState.isAir();

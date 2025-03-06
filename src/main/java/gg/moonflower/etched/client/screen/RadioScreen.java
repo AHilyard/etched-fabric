@@ -1,7 +1,6 @@
 package gg.moonflower.etched.client.screen;
 
 import gg.moonflower.etched.common.menu.RadioMenu;
-import gg.moonflower.etched.common.network.EtchedMessages;
 import gg.moonflower.etched.common.network.play.ServerboundSetUrlPacket;
 import gg.moonflower.etched.core.Etched;
 import net.minecraft.client.gui.GuiGraphics;

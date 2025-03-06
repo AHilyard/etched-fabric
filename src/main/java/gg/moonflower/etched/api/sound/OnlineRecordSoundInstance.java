@@ -2,7 +2,7 @@ package gg.moonflower.etched.api.sound;
 
 import gg.moonflower.etched.api.sound.source.AudioSource;
 import gg.moonflower.etched.api.util.DownloadProgressListener;
-import gg.moonflower.etched.core.Etched;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.TickableSoundInstance;
 import net.minecraft.sounds.SoundSource;
@@ -16,7 +16,8 @@ public class OnlineRecordSoundInstance extends AbstractOnlineSoundInstance imple
     private final Entity entity;
     private boolean stopped;
 
-    public OnlineRecordSoundInstance(String url, Entity entity, float volume, int attenuationDistance, DownloadProgressListener progressListener, AudioSource.AudioFileType type) {
+    @SuppressWarnings("resource")
+	public OnlineRecordSoundInstance(String url, Entity entity, float volume, int attenuationDistance, DownloadProgressListener progressListener, AudioSource.AudioFileType type) {
         super(url, null, attenuationDistance, SoundSource.RECORDS, progressListener, type, entity == Minecraft.getInstance().player);
         this.volume = volume;
         this.entity = entity;

@@ -31,9 +31,9 @@ public class HumanoidModelMixin<T extends LivingEntity> {
     @Inject(method = "poseRightArm", at = @At("HEAD"), cancellable = true)
     public void poseRightArm(T livingEntity, CallbackInfo ci) {
         if (livingEntity instanceof Player player) {
-            InteractionHand playingHand = BoomboxItem.getPlayingHand(livingEntity);
-            if ((livingEntity.getMainArm() == HumanoidArm.RIGHT && playingHand == InteractionHand.MAIN_HAND) ||
-                    (livingEntity.getMainArm() == HumanoidArm.LEFT && playingHand == InteractionHand.OFF_HAND)) {
+            InteractionHand playingHand = BoomboxItem.getPlayingHand(player);
+            if ((player.getMainArm() == HumanoidArm.RIGHT && playingHand == InteractionHand.MAIN_HAND) ||
+                (player.getMainArm() == HumanoidArm.LEFT && playingHand == InteractionHand.OFF_HAND)) {
                 this.rightArm.xRot = (float) Math.PI;
                 this.rightArm.yRot = 0.0F;
                 this.rightArm.zRot = -0.610865F;
@@ -45,9 +45,9 @@ public class HumanoidModelMixin<T extends LivingEntity> {
     @Inject(method = "poseLeftArm", at = @At("HEAD"), cancellable = true)
     public void poseLeftArm(T livingEntity, CallbackInfo ci) {
         if (livingEntity instanceof Player player) {
-            InteractionHand playingHand = BoomboxItem.getPlayingHand(livingEntity);
-            if ((livingEntity.getMainArm() == HumanoidArm.LEFT && playingHand == InteractionHand.MAIN_HAND) ||
-                    (livingEntity.getMainArm() == HumanoidArm.RIGHT && playingHand == InteractionHand.OFF_HAND)) {
+            InteractionHand playingHand = BoomboxItem.getPlayingHand(player);
+            if ((player.getMainArm() == HumanoidArm.LEFT && playingHand == InteractionHand.MAIN_HAND) ||
+                (player.getMainArm() == HumanoidArm.RIGHT && playingHand == InteractionHand.OFF_HAND)) {
                 this.leftArm.xRot = (float) Math.PI;
                 this.leftArm.yRot = 0.0F;
                 this.leftArm.zRot = 0.610865F;

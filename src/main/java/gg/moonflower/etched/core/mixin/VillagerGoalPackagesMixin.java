@@ -2,9 +2,6 @@ package gg.moonflower.etched.core.mixin;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
-import gg.moonflower.etched.common.entity.WorkAtNoteBlock;
-//TODO:FIX
-//import gg.moonflower.etched.core.registry.EtchedVillagers;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.VillagerGoalPackages;
 import net.minecraft.world.entity.ai.behavior.WorkAtPoi;

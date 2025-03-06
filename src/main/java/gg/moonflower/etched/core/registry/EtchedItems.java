@@ -2,14 +2,7 @@ package gg.moonflower.etched.core.registry;
 
 import gg.moonflower.etched.common.item.*;
 import gg.moonflower.etched.core.Etched;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 

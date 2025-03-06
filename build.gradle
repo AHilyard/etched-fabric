@@ -42,11 +42,9 @@ repositories {
     maven { url = "https://mvn.devos.one/snapshots/" }
     maven { url ="https://repo1.maven.org/maven2/"}
     maven { url = "https://jitpack.io/" }
-    repositories {
-        maven {
-            name 'Xander Maven'
-            url 'https://maven.isxander.dev/releases'
-        }
+    maven {
+        name 'Xander Maven'
+        url 'https://maven.isxander.dev/releases'
     }
 }
 
@@ -74,6 +72,7 @@ dependencies {
             {exclude group: "com.github.llamalad7.mixinextras" }
 
     shadowCommon(implementation("javazoom:jlayer:1.0.1"))
+	shadowCommon(implementation("com.github.DV8FromTheWorld:JAADec:master-SNAPSHOT"))
 }
 
 processResources {
@@ -112,7 +111,6 @@ java {
 
 shadowJar {
     configurations = [project.configurations.shadowCommon]
-    relocate "javazoom", "gg.moonflower.etched.javazoom"
     archiveClassifier = "dev-shadow"
 }
 

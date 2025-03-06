@@ -1,7 +1,7 @@
 package gg.moonflower.etched.common.network.play;
 
 import gg.moonflower.etched.common.network.EtchedMessages;
-import gg.moonflower.etched.common.network.play.handler.EtchedServerPlayPacketHandler;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;

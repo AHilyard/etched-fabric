@@ -173,7 +173,8 @@ public class BoomboxItem extends Item implements ContainerItem {
         entity.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 
-    private void playDropContentsSound(Entity entity) {
+    @SuppressWarnings("unused")
+	private void playDropContentsSound(Entity entity) {
         entity.playSound(SoundEvents.BUNDLE_DROP_CONTENTS, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 

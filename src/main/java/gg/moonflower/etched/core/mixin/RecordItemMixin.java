@@ -6,13 +6,11 @@ import gg.moonflower.etched.api.record.PlayableRecord;
 import gg.moonflower.etched.api.record.TrackData;
 import gg.moonflower.etched.client.render.item.AlbumCoverItemRenderer;
 import gg.moonflower.etched.client.sound.EntityRecordSoundInstance;
-import gg.moonflower.etched.core.Etched;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -64,7 +62,8 @@ public abstract class RecordItemMixin extends Item implements PlayableRecord {
         }
 
         if (PlayableRecord.canShowMessage(entity.getX(), entity.getY(), entity.getZ())) {
-            Minecraft.getInstance().gui.setNowPlaying(record.getDisplayName());
+			Minecraft minecraft = Minecraft.getInstance();
+            minecraft.gui.setNowPlaying(record.getDisplayName());
         }
         return Optional.of(new EntityRecordSoundInstance(record.getSound(), entity));
     }

@@ -59,7 +59,8 @@ public abstract class ParrotMixin extends Entity {
                 if (!entity.isAlive() || entity.isSpectator()) {
                     return false;
                 }
-                if (entity == Minecraft.getInstance().player && BoomboxItem.getPlayingHand((LivingEntity) entity) == null) {
+				Minecraft minecraft = Minecraft.getInstance();
+                if (entity == minecraft.player && BoomboxItem.getPlayingHand((LivingEntity) entity) == null) {
                     return false;
                 }
 

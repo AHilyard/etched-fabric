@@ -4,7 +4,6 @@ import gg.moonflower.etched.common.network.play.*;
 import gg.moonflower.etched.common.network.play.handler.EtchedClientPlayPacketHandler;
 import gg.moonflower.etched.common.network.play.handler.EtchedServerPlayPacketHandler;
 import gg.moonflower.etched.core.Etched;
-import io.netty.handler.codec.EncoderException;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -13,11 +12,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Optional;
-import java.util.function.Function;
 
 public class EtchedMessages {
 

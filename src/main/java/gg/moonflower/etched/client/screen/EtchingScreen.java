@@ -7,7 +7,6 @@ import gg.moonflower.etched.common.item.ComplexMusicLabelItem;
 import gg.moonflower.etched.common.item.EtchedMusicDiscItem;
 import gg.moonflower.etched.common.item.MusicLabelItem;
 import gg.moonflower.etched.common.menu.EtchingMenu;
-import gg.moonflower.etched.common.network.EtchedMessages;
 import gg.moonflower.etched.common.network.play.ServerboundSetUrlPacket;
 import gg.moonflower.etched.core.Etched;
 import gg.moonflower.etched.core.registry.EtchedItems;

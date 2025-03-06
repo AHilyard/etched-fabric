@@ -48,7 +48,7 @@ import java.util.concurrent.Executor;
 /**
  * @author Ocelot
  */
-public class AlbumCoverItemRenderer extends BlockEntityWithoutLevelRenderer implements PreparableReloadListener {
+public class AlbumCoverItemRenderer extends BlockEntityWithoutLevelRenderer {
 
     public static final AlbumCoverItemRenderer INSTANCE = new AlbumCoverItemRenderer();
     public static final String FOLDER_NAME = Etched.MOD_ID + "_album_cover";
@@ -253,7 +253,8 @@ public class AlbumCoverItemRenderer extends BlockEntityWithoutLevelRenderer impl
             return this.model;
         }
 
-        public NativeImage getImage() {
+        @SuppressWarnings("resource")
+		public NativeImage getImage() {
             return this.contents().originalImage;
         }
 

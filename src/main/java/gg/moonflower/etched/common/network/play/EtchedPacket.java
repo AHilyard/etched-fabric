@@ -1,8 +1,7 @@
 package gg.moonflower.etched.common.network.play;
 
 import gg.moonflower.etched.common.network.EtchedMessages;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

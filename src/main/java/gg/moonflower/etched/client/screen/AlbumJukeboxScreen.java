@@ -6,7 +6,6 @@ import gg.moonflower.etched.api.record.TrackData;
 import gg.moonflower.etched.api.sound.SoundTracker;
 import gg.moonflower.etched.common.blockentity.AlbumJukeboxBlockEntity;
 import gg.moonflower.etched.common.menu.AlbumJukeboxMenu;
-import gg.moonflower.etched.common.network.EtchedMessages;
 import gg.moonflower.etched.common.network.play.SetAlbumJukeboxTrackPacket;
 import gg.moonflower.etched.core.Etched;
 import net.minecraft.ChatFormatting;
@@ -74,7 +73,8 @@ public class AlbumJukeboxScreen extends AbstractContainerScreen<AlbumJukeboxMenu
         int buttonPadding = 6;
         Component last = Component.literal("Last");
         Component next = Component.literal("Next");
-        Font font = Minecraft.getInstance().font;
+		Minecraft minecraft = Minecraft.getInstance();
+        Font font = minecraft.font;
         this.addRenderableWidget(Button.builder(last, b -> this.update(false)).bounds(this.leftPos + 7 + (54 - font.width(last)) / 2 - buttonPadding, this.topPos + 33, font.width(last) + 2 * buttonPadding, 20).build());
         this.addRenderableWidget(Button.builder(next, b -> this.update(true)).bounds(this.leftPos + 115 + (54 - font.width(last)) / 2 - buttonPadding, this.topPos + 33, font.width(next) + 2 * buttonPadding, 20).build());
         this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;

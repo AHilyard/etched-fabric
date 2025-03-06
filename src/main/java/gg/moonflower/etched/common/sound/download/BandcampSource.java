@@ -65,7 +65,8 @@ public class BandcampSource implements SoundDownloadSource {
         }
     }
 
-    private <T> T resolve(String url, @Nullable DownloadProgressListener progressListener, Proxy proxy, SourceRequest<T> function) throws IOException, JsonParseException {
+    @SuppressWarnings("deprecation")
+	private <T> T resolve(String url, @Nullable DownloadProgressListener progressListener, Proxy proxy, SourceRequest<T> function) throws IOException, JsonParseException {
         try (InputStream stream = this.get(url, progressListener, proxy)) {
             Matcher dataMatcher = DATA_PATTERN.matcher(IOUtils.toString(stream, StandardCharsets.UTF_8));
             String raw = dataMatcher.find() ? dataMatcher.group(1) : null;
@@ -111,7 +112,8 @@ public class BandcampSource implements SoundDownloadSource {
         });
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public List<TrackData> resolveTracks(String url, @Nullable DownloadProgressListener progressListener, Proxy proxy) throws IOException, JsonParseException {
         return this.resolve(url, progressListener, proxy, json -> {
             int urlEnd = url.indexOf(".com/");

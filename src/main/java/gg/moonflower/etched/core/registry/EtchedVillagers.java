@@ -1,50 +1,26 @@
 package gg.moonflower.etched.core.registry;
 
 import com.google.common.collect.ImmutableSet;
-import com.mojang.datafixers.util.Pair;
-import com.tterrag.registrate.fabric.RegistryObject;
 import gg.moonflower.etched.core.Etched;
-import gg.moonflower.etched.core.mixin.StructureTemplatePoolAccessor;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
-import net.minecraft.core.Holder;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.ProcessorLists;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
-import org.apache.commons.lang3.Validate;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Supplier;
 //TODO: FIX
 public class EtchedVillagers {
-    private static Set<BlockState> getBlockStates(Block block) {
-        return ImmutableSet.copyOf((Collection)block.getStateDefinition().getPossibleStates());
+	private static Set<BlockState> getBlockStates(Block block) {
+        return ImmutableSet.copyOf((Collection<BlockState>)block.getStateDefinition().getPossibleStates());
     }
     public static final PoiType BARD_POI = PointOfInterestHelper.register(new ResourceLocation(Etched.MOD_ID,"bard"),1,1,getBlockStates(EtchedBlocks.ETCHING_TABLE.get()));
         public static final VillagerProfession BARD_PROFESSION = Registry.register(BuiltInRegistries.VILLAGER_PROFESSION, (new ResourceLocation(Etched.MOD_ID,"bard")), new VillagerProfession(Etched.MOD_ID + ":bard", poi -> poi.value().equals(BARD_POI), poi -> poi.value().equals(BARD_POI), ImmutableSet.of(), ImmutableSet.of(), null));
