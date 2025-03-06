@@ -2,6 +2,7 @@ package gg.moonflower.etched.common.block;
 
 import gg.moonflower.etched.common.blockentity.AlbumJukeboxBlockEntity;
 import gg.moonflower.etched.core.fabric.EtchedConfig;
+import gg.moonflower.etched.core.mixin.LevelRendererAccessor;
 import gg.moonflower.etched.core.registry.EtchedBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
@@ -142,7 +143,7 @@ public class AlbumJukeboxBlock extends BaseEntityBlock {
         }
 
         Minecraft minecraft = Minecraft.getInstance();
-        Map<BlockPos, SoundInstance> sounds =  minecraft.levelRenderer.playingRecords;
+        Map<BlockPos, SoundInstance> sounds =  ((LevelRendererAccessor)minecraft.levelRenderer).getPlayingRecords();
         if (sounds.containsKey(pos) && minecraft.getSoundManager().isActive(sounds.get(pos))) {
             level.addParticle(ParticleTypes.NOTE, pos.getX() + 0.5D, pos.getY() + 1.2D, pos.getZ() + 0.5D, random.nextInt(25) / 24D, 0, 0);
         }
