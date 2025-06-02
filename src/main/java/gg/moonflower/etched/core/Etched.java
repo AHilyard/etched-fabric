@@ -33,13 +33,13 @@ public class Etched {
         EtchedRecipes.register();
         EtchedSounds.register();
 
-        // for some reason POI is broken so I guess I will add Crafting Recipe for the table for now
-        //EtchedVillagers.registers();
-
         REGISTRATE.register();
         EtchedConfig.HANDLER.load();
         SoundSourceManager.registerSource(new SoundCloudSource());
         SoundSourceManager.registerSource(new BandcampSource());
+
+        // register villagers after REGISTRATE so stuff is not air i guess
+        EtchedVillagers.register();
     }
 
 }
