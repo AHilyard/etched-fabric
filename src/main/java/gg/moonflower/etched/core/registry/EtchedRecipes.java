@@ -19,7 +19,7 @@ public class EtchedRecipes {
     public static final RecipeSerializer<MusicDiscCloningRecipe> CLONE_MUSIC_DISC =
     Registry.register(
             BuiltInRegistries.RECIPE_SERIALIZER,
-            Etched.MOD_ID+":clone_music_disc",
+            Etched.MOD_ID+":music_disc_cloning",
             new SimpleCraftingRecipeSerializer<>(MusicDiscCloningRecipe::new)
     );
     //REGISTRY.register("complex_music_label", () -> new SimpleCraftingRecipeSerializer<>(ComplexMusicLabelRecipe::new));

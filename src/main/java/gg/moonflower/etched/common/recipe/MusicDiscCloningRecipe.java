@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -88,10 +89,8 @@ public class MusicDiscCloningRecipe extends CustomRecipe {
 
         for (int i = 0; i < list.size(); ++i) {
             ItemStack stack = container.getItem(i);
-            if (!stack.isEmpty() || stack != ItemStack.EMPTY || stack.getCount() >= 0) {
-                ItemStack copyStack = stack.copy();
-                copyStack.setDamageValue(stack.getDamageValue() - 1);
-                list.set(i, copyStack);
+            if (stack.getItem() == EtchedItems.BLANK_MUSIC_DISC.get()) {
+                list.set(i, new ItemStack(Items.AIR));
             } else if (stack.is(ItemTags.MUSIC_DISCS)) {
                 list.set(i, stack.copyWithCount(1));
             }
