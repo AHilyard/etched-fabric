@@ -5,7 +5,7 @@
   "minVersion": "0.8",
   "plugin": "gg.moonflower.etched.core.mixin.client.MixinConfig",
   "client": [
-	"LevelRendererAccessor",
+    "LevelRendererAccessor",
     "client.ChannelMixin",
     "client.ClientLivingEntityMixin",
     "client.GuiAccessor",

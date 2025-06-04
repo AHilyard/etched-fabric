@@ -6,6 +6,7 @@ import gg.moonflower.etched.api.sound.source.AudioSource;
 import gg.moonflower.etched.api.sound.stream.MonoWrapper;
 import gg.moonflower.etched.api.sound.stream.RawAudioStream;
 import gg.moonflower.etched.api.util.DownloadProgressListener;
+import gg.moonflower.etched.api.util.Flac.FlacInputStream;
 import gg.moonflower.etched.api.util.Mp3InputStream;
 import gg.moonflower.etched.api.util.WaveDataReader;
 import gg.moonflower.etched.api.util.AAC.AACInputStream;
@@ -164,23 +165,39 @@ public class AbstractOnlineSoundInstance extends AbstractSoundInstance {
 									? new LoopingAudioStream(input -> new RawAudioStream(format, input), aacInputStream)
 									: new RawAudioStream(format, aacInputStream),
 								sound);
+
 							} catch (Exception e3) {
 								LOGGER.debug("Failed to load as AAC", e3);
 
-								UnsupportedAudioFileException cause = new UnsupportedAudioFileException("Could not load as OGG, WAV, MP3, or AAC");
+                                // Try loading as FLAC
+                                try {
+                                    //FLAC loads something but plays nothing
+                                    InputStream combinedStream = createCombinedStream.get();
+                                    FlacInputStream flacInputStream = new FlacInputStream(combinedStream);
+                                    AudioFormat format = flacInputStream.getFormat();
+                                    int length = flacInputStream.available();
+                                    LOGGER.error("Flac length: {}", length);
+                                    return getStream(repeatInstantly
+                                                    ? new LoopingAudioStream(input -> new RawAudioStream(format, input), flacInputStream)
+                                                    : new RawAudioStream(format, flacInputStream),
+                                            sound);
+                                }  catch (Exception e4) {
+                                    UnsupportedAudioFileException cause = new UnsupportedAudioFileException("Could not load as OGG, WAV, MP3, AAC or FLAC");
 
-								cause.addSuppressed(e);
-								cause.addSuppressed(e1);
-								cause.addSuppressed(e2);
-								cause.addSuppressed(e3);
+                                    cause.addSuppressed(e);
+                                    cause.addSuppressed(e1);
+                                    cause.addSuppressed(e2);
+                                    cause.addSuppressed(e3);
+                                    cause.addSuppressed(e4);
 
-								try {
-									is.close();
-								} catch (Exception e4) {
-									// Pass the exception along
-									cause.addSuppressed(e4);
-								}
-								throw new CompletionException(cause);
+                                    try {
+                                        is.close();
+                                    } catch (Exception e5) {
+                                        // Pass the exception along
+                                        cause.addSuppressed(e5);
+                                    }
+                                    throw new CompletionException(cause);
+                                }
 							}
                         }
                     }

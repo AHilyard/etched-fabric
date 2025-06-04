@@ -7,6 +7,13 @@ import gg.moonflower.etched.common.sound.download.BandcampSource;
 import gg.moonflower.etched.common.sound.download.SoundCloudSource;
 import gg.moonflower.etched.core.fabric.EtchedConfig;
 import gg.moonflower.etched.core.registry.*;
+import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,13 +40,37 @@ public class Etched {
         EtchedRecipes.register();
         EtchedSounds.register();
 
-        // for some reason POI is broken so I guess I will add Crafting Recipe for the table for now
-        //EtchedVillagers.registers();
-
         REGISTRATE.register();
         EtchedConfig.HANDLER.load();
         SoundSourceManager.registerSource(new SoundCloudSource());
         SoundSourceManager.registerSource(new BandcampSource());
+
+        // register villagers after REGISTRATE so stuff is not air i guess
+        EtchedVillagers.register();
+
+        CauldronInteraction.WATER.put(EtchedItems.BLANK_MUSIC_DISC.get(), CauldronInteraction.DYED_ITEM);
+        CauldronInteraction.WATER.put(EtchedItems.MUSIC_LABEL.get(), CauldronInteraction.DYED_ITEM);
+        CauldronInteraction.WATER.put(EtchedItems.COMPLEX_MUSIC_LABEL.get(), (state, level, pos, player, hand, stack) -> {
+            if (!level.isClientSide()) {
+                ItemStack newStack = new ItemStack(EtchedItems.MUSIC_LABEL.get());
+                newStack.setCount(stack.getCount());
+                if (stack.hasTag()) {
+                    CompoundTag tag = stack.getTag().copy();
+                    if (tag.contains("Label", Tag.TAG_COMPOUND)) {
+                        CompoundTag label = tag.getCompound("Label");
+                        label.remove("PrimaryColor");
+                        label.remove("SecondaryColor");
+                    }
+                    newStack.setTag(tag);
+                }
+
+                player.setItemInHand(hand, newStack);
+                player.awardStat(Stats.CLEAN_ARMOR);
+                LayeredCauldronBlock.lowerFillLevel(state, level, pos);
+            }
+
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        });
     }
 
 }

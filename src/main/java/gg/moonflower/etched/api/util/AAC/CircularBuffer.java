@@ -7,7 +7,7 @@ package gg.moonflower.etched.api.util.AAC;
  */
 public class CircularBuffer {
 
-	private static final int BUFFER_SIZE = 327670;
+	private static final int BUFFER_SIZE = 67108864;
 	private final byte[] data;
 	private final Trigger trigger;
 	private long readPos, writePos;

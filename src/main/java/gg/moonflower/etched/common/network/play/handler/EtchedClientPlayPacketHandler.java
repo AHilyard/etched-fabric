@@ -10,7 +10,8 @@ import gg.moonflower.etched.client.screen.RadioScreen;
 import gg.moonflower.etched.common.blockentity.AlbumJukeboxBlockEntity;
 import gg.moonflower.etched.common.network.play.*;
 import gg.moonflower.etched.core.mixin.LevelRendererAccessor;
-
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.resources.sounds.SoundInstance;

@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " I ",
-    "IRI",
-    "IJI"
+    " C ",
+    "CRC",
+    "CJC"
   ],
   "key": {
     "R": {
       "tag": "c:redstone_dusts"
     },
-    "I": {
-      "tag": "c:iron_ingots"
+    "C": {
+      "tag": "c:copper_ingots"
     },
     "J": {
       "item": "minecraft:jukebox"

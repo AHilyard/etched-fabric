@@ -34,7 +34,7 @@ repositories {
         name = 'ParchmentMC'
         url = 'https://maven.parchmentmc.org'
     }
-    maven { 
+    maven {
         name = "Fuzs Mod Resources"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
     }
@@ -46,7 +46,7 @@ repositories {
         name 'Xander Maven'
         url 'https://maven.isxander.dev/releases'
     }
-	maven {
+    maven {
         url "https://cursemaven.com"
         content {
             includeGroup "curse.maven"
@@ -76,10 +76,11 @@ dependencies {
     include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.3.6")))
     modImplementation(include("com.tterrag.registrate_fabric:Registrate:${project.registrate_version}"))
             {exclude group: "com.github.llamalad7.mixinextras" }
-	modImplementation "curse.maven:seriousplayeranimations-975080:5228789"
+    modImplementation "curse.maven:seriousplayeranimations-975080:5228789"
 
     shadowCommon(implementation("javazoom:jlayer:1.0.1"))
-	shadowCommon(implementation("com.github.DV8FromTheWorld:JAADec:master-SNAPSHOT"))
+    shadowCommon(implementation("com.github.DV8FromTheWorld:JAADec:master-SNAPSHOT"))
+    shadowCommon(implementation("org.jflac:jflac-codec:1.5.2"))
 }
 
 processResources {
