@@ -1,6 +1,8 @@
 package gg.moonflower.etched.api.sound.stream;
 
 import net.minecraft.client.sounds.AudioStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 
 import javax.sound.sampled.AudioFormat;
@@ -13,6 +15,8 @@ import java.nio.ByteBuffer;
  * @author Ocelot
  */
 public class MonoWrapper implements AudioStream {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final AudioStream source;
     private final AudioFormat format;
@@ -33,7 +37,9 @@ public class MonoWrapper implements AudioStream {
     @Override
     public ByteBuffer read(int amount) throws IOException {
         ByteBuffer parent = this.source.read(amount * this.sourceChannels);
+        LOGGER.error("Read from source: " + parent.limit() + " bytes");
         if (this.sourceChannels == 1) {
+            LOGGER.error("Single channel, returning original buffer");
             return parent;
         }
 
@@ -45,6 +51,9 @@ public class MonoWrapper implements AudioStream {
             }
         }
         modified.rewind();
+
+        LOGGER.error("Downmixed buffer size: {} bytes", modified.limit());
+
         return modified;
     }
 

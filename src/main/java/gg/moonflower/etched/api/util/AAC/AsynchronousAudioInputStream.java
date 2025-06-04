@@ -7,12 +7,12 @@ import javax.sound.sampled.AudioInputStream;
 
 import gg.moonflower.etched.api.util.AAC.CircularBuffer.Trigger;
 
-abstract class AsynchronousAudioInputStream extends AudioInputStream implements Trigger {
+public abstract class AsynchronousAudioInputStream extends AudioInputStream implements Trigger {
 
 	private byte[] singleByte;
 	protected final CircularBuffer buffer;
 
-	AsynchronousAudioInputStream(InputStream in, AudioFormat format, long length) throws IOException {
+	public AsynchronousAudioInputStream(InputStream in, AudioFormat format, long length) throws IOException {
 		super(in, format, length);
 		buffer = new CircularBuffer(this);
 	}

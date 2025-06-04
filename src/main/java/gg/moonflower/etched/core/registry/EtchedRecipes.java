@@ -1,6 +1,7 @@
 package gg.moonflower.etched.core.registry;
 
 import gg.moonflower.etched.common.recipe.ComplexMusicLabelRecipe;
+import gg.moonflower.etched.common.recipe.MusicDiscCloningRecipe;
 import gg.moonflower.etched.core.Etched;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -14,6 +15,12 @@ public class EtchedRecipes {
         BuiltInRegistries.RECIPE_SERIALIZER,
             Etched.MOD_ID+":complex_music_label",
         new SimpleCraftingRecipeSerializer<>(ComplexMusicLabelRecipe::new)
+    );
+    public static final RecipeSerializer<MusicDiscCloningRecipe> CLONE_MUSIC_DISC =
+    Registry.register(
+            BuiltInRegistries.RECIPE_SERIALIZER,
+            Etched.MOD_ID+":clone_music_disc",
+            new SimpleCraftingRecipeSerializer<>(MusicDiscCloningRecipe::new)
     );
     //REGISTRY.register("complex_music_label", () -> new SimpleCraftingRecipeSerializer<>(ComplexMusicLabelRecipe::new));
     public static void register() {
